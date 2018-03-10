@@ -1,25 +1,58 @@
 apply plugin: 'com.android.application'
 
+//设置编译打包的时间
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion var.compileSdkVersion
+    buildToolsVersion var.buildToolVersion
     defaultConfig {
-        applicationId "com.component.zhengjr.zhengcomponent"
-        minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        applicationId var.applicationId
+        minSdkVersion var.minSdkVersion
+        targetSdkVersion var.targetSdkVersion
+        versionCode var.versionCode
+        versionName var.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    //签名配置
+    signingConfigs {
+        demokey {
+            // No debug config
+            storeFile file(var.storeFile)
+            storePassword var.storePassword
+            keyAlias var.keyAlias
+            keyPassword var.keyPassword
+        }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //签名配置
+            signingConfig signingConfigs.demokey
+            // 移除无用的resource文件
+            shrinkResources true
         }
+        debug {
+            minifyEnabled false
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+    //在apk文件后边生成版本号信息
+    android.applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                output -> outputFileName = new File("../../../../", defaultConfig.versionName + "版本" + "${releaseTime()}.apk");
+            }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'

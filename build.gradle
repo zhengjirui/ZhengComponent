@@ -25,3 +25,25 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext{
+    var = [
+            // SDK And Tools
+            compileSdkVersion:26,
+            buildToolVersion:"26.0.2",
+            applicationId:"com.component.zhengjr.zhengcomponent",
+            minSdkVersion:14,
+            targetSdkVersion:26,
+            versionCode:1,
+            versionName:"1.0",
+
+            //Dependencies
+//            supportLibraryVersion: "25.2.0",
+
+            //签名配置
+            storeFile:"G:/protect/ZhengComponent/demokey.jks",
+            storePassword:"123456",
+            keyAlias:"demokey",
+            keyPassword:"123456",
+    ]
+}
