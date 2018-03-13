@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.component.zhengjr.zhengcomponent.MainActivity">
-    <com.example.baselibrary.view.NavTabLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    tools:context="com.example.baselibrary.base.BaseActivity">
 
-    </com.example.baselibrary.view.NavTabLayout>
+    <include
+        android:id="@+id/base_leaving_layout"
+        layout="@layout/base_header" />
 
 </RelativeLayout>
